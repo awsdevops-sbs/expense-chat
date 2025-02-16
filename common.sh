@@ -41,7 +41,7 @@ manage_service() {
 
 app_req() {
   print "Downloading and extracting application files..."
-  curl -s -L -o /tmp/$component.zip "https://expense-app-artifacts.s3.amazonaws.com/$component.zip" &>>$LOG
+  curl -s -L -o /tmp/${component}.zip "https://expense-app-artifacts.s3.amazonaws.com/${component}.zip" &>>$LOG
   check_status $?
 
   print "Cleaning up old application files..."
