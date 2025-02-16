@@ -1,1 +1,1 @@
-# expense-chat we
+# expenses-shell
