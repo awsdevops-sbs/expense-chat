@@ -49,9 +49,8 @@ app_req() {
   check_status $?
 
   print "Extracting new application files...."
-  mkdir -p ${app_dir}  # Ensure directory exists
-  cd ${app_dir} &>>$LOG
-  unzip /tmp/${component}.zip  &>>$LOG
+   cd ${app_dir} &>>$Log
+    unzip /tmp/${component}.zip &>>$LOG
   check_status $?
 
   print "Setting permissions for application directory...."
