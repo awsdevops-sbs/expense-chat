@@ -50,8 +50,8 @@ app_req() {
   check_status $?
 
   print "Extracting new application files......"
-   #cd ${app_dir} &>>$LOG
-    unzip /tmp/${component}.zip &>>$LOG
+   cd ${app_dir} &>>$LOG
+   unzip /tmp/${component}.zip &>>$LOG
   check_status $?
 
 
