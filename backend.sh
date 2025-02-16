@@ -37,5 +37,5 @@ install_package mysql  # Install MySQL client
 
 print "Loading database schema..."
 #mysql -h mysql-dev.awsdevops.sbs -uroot -p${pass} < $app_dir/schema/backend.sql &>>$LOG
-mysql -h mysql-dev.awsdevops.sbs -uroot -p${pass} < /app/schema/backend.sql &>>$Log
+mysql -h mysql-dev.awsdevops.sbs -uroot -p${pass} < /app/schema/backend.sql &>>$LOG
 check_status $?
