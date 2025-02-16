@@ -54,8 +54,5 @@ app_req() {
     unzip /tmp/${component}.zip &>>$LOG
   check_status $?
 
-  print "Setting permissions for application directory...."
-  chown -R nginx:nginx $app_dir &>>$LOG
-  chmod -R 755 $app_dir &>>$LOG
-  check_status $?
+
 }
