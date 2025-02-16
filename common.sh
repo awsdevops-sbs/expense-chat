@@ -23,7 +23,7 @@ install_package() {
   package=$1
   if ! rpm -q $package &>/dev/null; then
     print "Installing $package..."
-    dnf install -y $package &>>$LOG
+    sudo dnf install -y $package &>>$LOG
     check_status $?
   else
     print "$package is already installed. Skipping..."

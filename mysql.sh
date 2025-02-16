@@ -5,7 +5,7 @@ source common.sh  # Load common functions
 mysql_root_password=$1
 
 if [ -z "${mysql_root_password}" ]; then
-  print "Input password is missingg!"
+  print "Input password is missing!"
   exit 1
 fi
 
@@ -22,4 +22,13 @@ if [ $? -eq 0 ]; then
 else
   print "MySQL root access already configured."
 fi
+
+ print "setting up the password"
+echo "Show database" | mysql -h mysql-dev.awsdevops.sbs -uroot -p${pass} &>>$Log
+check_status $? &>>$Log
+   if [ $? -eq 0 ]; then
+     mysql_secure_installation --set-root-pass ${pass} &>>$Log
+     check_status $?
+     fi
+
 
