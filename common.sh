@@ -48,7 +48,7 @@ app_req() {
   rm -rf $app_dir/* &>>$LOG
   check_status $?
 
-  print "Extracting new application files..."
+  print "Extracting new application files...."
   #mkdir -p ${app_dir}  # Ensure directory exists
   cd ${app_dir} &>>$LOG
   unzip /tmp/$component.zip  &>>$LOG
