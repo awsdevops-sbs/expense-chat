@@ -48,11 +48,33 @@ app_req() {
   rm -rf $app_dir/* &>>$LOG
   check_status $?
 
-  print "Extracting new application files..."
-  mkdir -p ${app_dir}  # Ensure directory exists
-  cd ${app_dir} &>>$LOG
-  unzip /tmp/$component.zip -d $app_dir &>>$LOG
-  check_status $?
+  print "Downloading and extracting application files..."
+    curl -s -L -o /tmp/$component.zip "https://expense-app-artifacts.s3.amazonaws.com/$component.zip"
+    check_status $?
+
+    # Validate ZIP file
+    if [ ! -f /tmp/$component.zip ]; then
+      echo -e "\e[1;31m[ERROR] ZIP file not found after download!\e[0m"
+      exit 1
+    fi
+
+    if ! file /tmp/$component.zip | grep -q "Zip archive"; then
+      echo -e "\e[1;31m[ERROR] Downloaded file is not a valid ZIP archive! Check URL or network.\e[0m"
+      exit 1
+    fi
+
+
+
+    print "Extracting new application files..."
+    mkdir -p ${app_dir}  # Ensure directory exists
+    cd ${app_dir} &>>$LOG
+
+    # Extract with error handling
+    if ! unzip /tmp/$component.zip -d $app_dir &>>$LOG; then
+      echo -e "\e[1;31m[ERROR] Failed to extract application files. Check if ZIP is valid.\e[0m"
+      exit 1
+    fi
+    check_status $?
 
   print "Setting permissions for application directory..."
   chown -R nginx:nginx $app_dir &>>$LOG
