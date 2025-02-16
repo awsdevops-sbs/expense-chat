@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e  # Exit immediately if a command fails
+
 LOG="/tmp/expense.log"
 rm -f $LOG  # Clear log before running new tasks
 
 print() {
-  echo -e "\e[1;36m[INFO] $1\e[0m"
-  echo "[INFO] $1" &>>$LOG
+  echo -e "\e[1;36m[INFO] $(date +'%Y-%m-%d %H:%M:%S') - $1\e[0m"
+  echo "[INFO] $(date +'%Y-%m-%d %H:%M:%S') - $1" >>$LOG
 }
 
 check_status() {
@@ -19,16 +21,21 @@ check_status() {
 
 install_package() {
   package=$1
-  print "Installing $package..."
-  dnf install $package -y &>>$LOG
-  check_status $?
+  if ! rpm -q $package &>/dev/null; then
+    print "Installing $package..."
+    dnf install -y $package &>>$LOG
+    check_status $?
+  else
+    print "$package is already installed. Skipping..."
+  fi
 }
 
 manage_service() {
   service=$1
-  print "Starting and enabling $service service..."
-  systemctl enable $service &>>$LOG
-  systemctl restart $service &>>$LOG
+  action=${2:-restart}  # Default to restart if no action is provided
+
+  print "Managing $service service: $action..."
+  systemctl $action $service &>>$LOG
   check_status $?
 }
 
@@ -42,6 +49,8 @@ app_req() {
   check_status $?
 
   print "Extracting new application files..."
+  mkdir -p ${app_dir}  # Ensure directory exists
+  cd ${app_dir} &>>$LOG
   unzip /tmp/$component.zip -d $app_dir &>>$LOG
   check_status $?
 

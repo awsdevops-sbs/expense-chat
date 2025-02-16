@@ -5,7 +5,7 @@ source common.sh
 component=frontend
 app_dir=/usr/share/nginx/html
 
-print "Installing Nginx..."
+
 install_package nginx
 
 print "Copying Nginx configuration....."
