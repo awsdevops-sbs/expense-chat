@@ -4,7 +4,7 @@ source common.sh
 
 component="backend"
 app_dir="/app"
-pass="$1"
+pass=$1
 
 if [ -z "$pass" ]; then
   print "No MySQL password provided!"
