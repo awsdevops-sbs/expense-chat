@@ -14,7 +14,8 @@ install_package mysql-server  # Install MySQL server
 manage_service mysqld  # Start and enable MySQL service
 
 print "Checking MySQL root access...."
-echo "Show database ;" | mysql -h mysql-dev.awsdevops.sbs -uroot -p${mysql_root_password} &>>$LOG
+echo 'Show databases;' | mysql -h mysql-dev.awsdevops.sbs -uroot -p${mysql_root_password} &>>$LOG
+#echo 'SHOW DATABASES;' | mysql -h mysql-dev.awsdevops.sbs -u root -pExpenseApp@1
 
 if [ $? -eq 0 ]; then
   print "Setting up MySQL root password..."
