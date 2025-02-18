@@ -33,12 +33,22 @@ install_package() {
 manage_service() {
   service=$1
   action=${2:-restart}  # Default to restart if no action is provided
+  reload_systemd=${3:-false}  # Optional reload systemd, default is false
 
   print "Managing $service service: $action..."
+
+  # Optionally reload systemd if specified
+  if [[ "$reload_systemd" == "true" ]]; then
+    print "Reloading systemd to apply service file changes..."
+    systemctl daemon-reload &>>$LOG
+    check_status $?
+  fi
+
+  # Perform the actual action on the service
   systemctl $action $service &>>$LOG
   check_status $?
-}
 
+}
 app_req() {
   print "Downloading and extracting application files..."
   sudo curl -o /tmp/${component}.zip https://expense-artifacts.s3.amazonaws.com/expense-${component}-v2.zip &>>$LOG

@@ -31,7 +31,9 @@ cd $app_dir
 npm install &>>$LOG
 check_status $?
 
-manage_service backend  # Start & enable backend service
+#manage_service backend  # Start & enable backend service
+
+manage_service backend "start" "enable" "true"
 
 install_package mysql  # Install MySQL client
 
